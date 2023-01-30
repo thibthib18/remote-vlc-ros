@@ -203,26 +203,15 @@ RUN curl -fsSL -O "${VIRTUALGL_URL}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" &&
 
 # Anything below this line should be always kept the same between docker-nvidia-glx-desktop and docker-nvidia-egl-desktop
 
-# Install KDE and other GUI packages
-ENV XDG_CURRENT_DESKTOP KDE
-ENV KWIN_COMPOSE N
-# Use sudoedit to change protected files instead of using sudo on kate
-ENV SUDO_EDITOR kate
+
 RUN mkdir -pm755 /etc/apt/preferences.d && \
     echo "Package: firefox*\n\
 Pin: release o=Ubuntu*\n\
 Pin-Priority: -1" > /etc/apt/preferences.d/firefox-ppa && \
     add-apt-repository -y ppa:mozillateam/ppa && \
     apt-get update && apt-get install --no-install-recommends -y \
-        librsvg2-common \
-        xdg-desktop-portal-kde \
-        firefox \
-        pavucontrol-qt
-    # Fix KDE startup permissions issues in containers
-    # cp -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit /tmp/ && \
-    # rm -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
-    # cp -r /tmp/start_kdeinit /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
-    # rm -f /tmp/start_kdeinit
+        firefox && \
+    rm -rf /var/lib/apt/lists/*
 
 # # Wine, Winetricks, Lutris, and PlayOnLinux, this process must be consistent with https://wiki.winehq.org/Ubuntu
 # ARG WINE_BRANCH=staging
