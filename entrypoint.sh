@@ -48,10 +48,9 @@ if [ "${NOVNC_ENABLE,,}" = "true" ]; then
   /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 8080 --heartbeat 10 &
 fi
 
-# Choose startplasma-x11 or startkde for KDE startup
-# if [ -x "$(command -v startplasma-x11)" ]; then export KDE_START="startplasma-x11"; else export KDE_START="startkde"; fi
 
 KDE_START="matchbox-window-manager -use_titlebar no -use_cursor yes"
+
 
 # Use VirtualGL to run the KDE desktop environment with OpenGL if the GPU is available, otherwise use OpenGL with llvmpipe
 if [ -n "$(nvidia-smi --query-gpu=uuid --format=csv | sed -n 2p)" ]; then
@@ -62,10 +61,11 @@ else
   $KDE_START &
 fi
 
+
 # Add custom processes right below this line, or within `supervisord.conf` to perform service management similar to systemd
 
 source /opt/ros/humble/setup.bash
-/opt/ros/humble/lib/plotjuggler/plotjuggler --disable_opengl &
+vglrun -d ${VGL_DISPLAY} /opt/ros/humble/lib/plotjuggler/plotjuggler 
 
 echo "Session Running. Press [Return] to exit."
 read
