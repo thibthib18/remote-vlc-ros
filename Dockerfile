@@ -311,6 +311,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 # Add custom packages right below this comment, or use FROM in a new container and replace entrypoint.sh or supervisord.conf, and set ENTRYPOINT to /usr/bin/supervisord
 
+RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
+    apt-get update && apt-get install --no-install-recommends -y \
+        ros-humble-plotjuggler-ros ros-humble-rclcpp && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # Create user with password ${PASSWD} and assign adequate groups
 RUN apt-get update && apt-get install --no-install-recommends -y \
         sudo matchbox-window-manager && \

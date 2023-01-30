@@ -49,7 +49,7 @@ if [ "${NOVNC_ENABLE,,}" = "true" ]; then
 fi
 
 # Choose startplasma-x11 or startkde for KDE startup
-if [ -x "$(command -v startplasma-x11)" ]; then export KDE_START="startplasma-x11"; else export KDE_START="startkde"; fi
+# if [ -x "$(command -v startplasma-x11)" ]; then export KDE_START="startplasma-x11"; else export KDE_START="startkde"; fi
 
 KDE_START="matchbox-window-manager -use_titlebar no -use_cursor yes"
 
@@ -63,7 +63,9 @@ else
 fi
 
 # Add custom processes right below this line, or within `supervisord.conf` to perform service management similar to systemd
-/usr/bin/firefox
+
+source /opt/ros/humble/setup.bash
+/opt/ros/humble/lib/plotjuggler/plotjuggler --disable_opengl &
 
 echo "Session Running. Press [Return] to exit."
 read
