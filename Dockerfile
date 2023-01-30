@@ -54,34 +54,22 @@ ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
 # Install Xvfb and other important libraries or packages
-RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get install --no-install-recommends -y \
+RUN apt-get update && apt-get install --no-install-recommends -y \
         curl \
         nano \
         supervisor \
         net-tools \
         libglvnd-dev \
-        libglvnd-dev:i386 \
         libgl1-mesa-dev \
-        libgl1-mesa-dev:i386 \
         libegl1-mesa-dev \
-        libegl1-mesa-dev:i386 \
         libgles2-mesa-dev \
-        libgles2-mesa-dev:i386 \
         libglvnd0 \
-        libglvnd0:i386 \
         libgl1 \
-        libgl1:i386 \
         libglx0 \
-        libglx0:i386 \
         libegl1 \
-        libegl1:i386 \
         libgles2 \
-        libgles2:i386 \
         libglu1 \
-        libglu1:i386 \
         libsm6 \
-        libsm6:i386 \
         vainfo \
         vdpauinfo \
         mesa-utils \
@@ -89,7 +77,6 @@ RUN dpkg --add-architecture i386 && \
         va-driver-all \
         mesa-vulkan-drivers \
         libvulkan-dev \
-        libvulkan-dev:i386 \
         libdbus-c++-1-0v5 \
         libxrandr-dev \
         # Install Xvfb, packages above this line should be the same between docker-nvidia-glx-desktop and docker-nvidia-egl-desktop
@@ -120,41 +107,26 @@ RUN VULKAN_API_VERSION=$(dpkg -s libvulkan1 | grep -oP 'Version: [0-9|\.]+' | gr
 # Install VirtualGL and make libraries available for preload
 ARG VIRTUALGL_URL="https://sourceforge.net/projects/virtualgl/files"
 RUN curl -fsSL -O "${VIRTUALGL_URL}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" && \
-    curl -fsSL -O "${VIRTUALGL_URL}/virtualgl32_${VIRTUALGL_VERSION}_amd64.deb" && \
-    apt-get update && apt-get install -y --no-install-recommends ./virtualgl_${VIRTUALGL_VERSION}_amd64.deb ./virtualgl32_${VIRTUALGL_VERSION}_amd64.deb && \
-    rm -f "virtualgl_${VIRTUALGL_VERSION}_amd64.deb" "virtualgl32_${VIRTUALGL_VERSION}_amd64.deb" && \
+    apt-get update && apt-get install -y --no-install-recommends ./virtualgl_${VIRTUALGL_VERSION}_amd64.deb && \
+    rm -f "virtualgl_${VIRTUALGL_VERSION}_amd64.deb" && \
     rm -rf /var/lib/apt/lists/* && \
     chmod u+s /usr/lib/libvglfaker.so && \
-    chmod u+s /usr/lib/libdlfaker.so && \
-    chmod u+s /usr/lib32/libvglfaker.so && \
-    chmod u+s /usr/lib32/libdlfaker.so && \
-    chmod u+s /usr/lib/i386-linux-gnu/libvglfaker.so && \
-    chmod u+s /usr/lib/i386-linux-gnu/libdlfaker.so
+    chmod u+s /usr/lib/libdlfaker.so
 
 
 # Install latest selkies-gstreamer (https://github.com/selkies-project/selkies-gstreamer) build, Python application, and web application, should be consistent with selkies-gstreamer documentation
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        build-essential \
-        python3-pip \
-        python3-dev \
-        python3-gi \
+        python3 \
         python3-setuptools \
         python3-wheel \
         tzdata \
         sudo \
         udev \
         xclip \
-        x11-utils \
-        xdotool \
-        wmctrl \
-        jq \
         gdebi-core \
-        x11-xserver-utils \
-        xserver-xorg-core \
         libopus0 \
         libgdk-pixbuf2.0-0 \
         libsrtp2-1 \
-        libxdamage1 \
         libxml2-dev \
         libwebrtc-audio-processing1 \
         libcairo-gobject2 \
