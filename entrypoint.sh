@@ -51,6 +51,8 @@ fi
 # Choose startplasma-x11 or startkde for KDE startup
 if [ -x "$(command -v startplasma-x11)" ]; then export KDE_START="startplasma-x11"; else export KDE_START="startkde"; fi
 
+KDE_START="matchbox-window-manager -use_titlebar no -use_cursor yes"
+
 # Use VirtualGL to run the KDE desktop environment with OpenGL if the GPU is available, otherwise use OpenGL with llvmpipe
 if [ -n "$(nvidia-smi --query-gpu=uuid --format=csv | sed -n 2p)" ]; then
   export VGL_DISPLAY="${VGL_DISPLAY:-egl}"
@@ -61,6 +63,7 @@ else
 fi
 
 # Add custom processes right below this line, or within `supervisord.conf` to perform service management similar to systemd
+/usr/bin/firefox
 
 echo "Session Running. Press [Return] to exit."
 read
