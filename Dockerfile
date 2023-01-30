@@ -214,71 +214,15 @@ Pin: release o=Ubuntu*\n\
 Pin-Priority: -1" > /etc/apt/preferences.d/firefox-ppa && \
     add-apt-repository -y ppa:mozillateam/ppa && \
     apt-get update && apt-get install --no-install-recommends -y \
-        kde-plasma-desktop \
-        kwin-addons \
-        kwin-x11 \
-        kdeadmin \
-        akregator \
-        ark \
-        baloo-kf5 \
-        breeze-cursor-theme \
-        breeze-icon-theme \
-        debconf-kde-helper \
-        colord-kde \
-        desktop-file-utils \
-        filelight \
-        gwenview \
-        hspell \
-        kaddressbook \
-        kaffeine \
-        kate \
-        kcalc \
-        kcharselect \
-        kdeconnect \
-        kde-spectacle \
-        kdf \
-        kget \
-        kgpg \
-        khelpcenter \
-        khotkeys \
-        kimageformat-plugins \
-        kinfocenter \
-        kio-extras \
-        kleopatra \
-        kmail \
-        kmenuedit \
-        kmix \
-        knotes \
-        kontact \
-        kopete \
-        korganizer \
-        krdc \
-        ktimer \
-        kwalletmanager \
         librsvg2-common \
-        okular \
-        okular-extra-backends \
-        plasma-dataengines-addons \
-        plasma-discover \
-        plasma-runners-addons \
-        plasma-wallpapers-addons \
-        plasma-widgets-addons \
-        plasma-workspace-wallpapers \
-        qtvirtualkeyboard-plugin \
-        sonnet-plugins \
-        sweeper \
-        systemsettings \
         xdg-desktop-portal-kde \
-        kubuntu-restricted-extras \
-        kubuntu-wallpapers \
         firefox \
-        pavucontrol-qt \
-        transmission-qt && \
+        pavucontrol-qt
     # Fix KDE startup permissions issues in containers
-    cp -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit /tmp/ && \
-    rm -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
-    cp -r /tmp/start_kdeinit /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
-    rm -f /tmp/start_kdeinit
+    # cp -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit /tmp/ && \
+    # rm -f /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
+    # cp -r /tmp/start_kdeinit /usr/lib/x86_64-linux-gnu/libexec/kf5/start_kdeinit && \
+    # rm -f /tmp/start_kdeinit
 
 # # Wine, Winetricks, Lutris, and PlayOnLinux, this process must be consistent with https://wiki.winehq.org/Ubuntu
 # ARG WINE_BRANCH=staging
@@ -384,7 +328,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     rm -rf /var/lib/apt/lists/* && \
     groupadd -g 1000 user && \
     useradd -ms /bin/bash user -u 1000 -g 1000 && \
-    usermod -a -G adm,audio,cdrom,dialout,dip,fax,floppy,input,lp,lpadmin,plugdev,pulse-access,scanner,sudo,tape,tty,video,voice user && \
+    usermod -a -G adm,audio,cdrom,dialout,dip,fax,floppy,input,lp,lpadmin,plugdev,pulse-access,sudo,tape,tty,video,voice user && \
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     chown user:user /home/user && \
     echo "user:${PASSWD}" | chpasswd && \
