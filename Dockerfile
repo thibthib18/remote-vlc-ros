@@ -57,49 +57,14 @@ ENV LC_ALL en_US.UTF-8
 RUN dpkg --add-architecture i386 && \
     apt-get update && apt-get install --no-install-recommends -y \
         software-properties-common \
-        alsa-base \
-        alsa-utils \
         apt-transport-https \
         apt-utils \
         build-essential \
         ca-certificates \
-        cups-filters \
-        cups-common \
-        cups-pdf \
         curl \
-        file \
-        wget \
-        bzip2 \
-        gzip \
-        p7zip-full \
-        xz-utils \
-        zip \
-        unzip \
-        zstd \
         gcc \
-        git \
-        jq \
         make \
-        python3 \
-        python3-cups \
-        python3-numpy \
-        mlocate \
         nano \
-        vim \
-        htop \
-        fonts-dejavu-core \
-        fonts-freefont-ttf \
-        fonts-noto \
-        fonts-noto-cjk \
-        fonts-noto-cjk-extra \
-        fonts-noto-color-emoji \
-        fonts-noto-hinted \
-        fonts-noto-mono \
-        fonts-opensymbol \
-        fonts-symbola \
-        fonts-ubuntu \
-        libpulse0 \
-        pulseaudio \
         supervisor \
         net-tools \
         libglvnd-dev \
@@ -158,7 +123,6 @@ RUN dpkg --add-architecture i386 && \
         x11-utils \
         x11-apps \
         xauth \
-        xbitmaps \
         xinit \
         xfonts-base \
         libxrandr-dev \
@@ -201,35 +165,6 @@ RUN curl -fsSL -O "${VIRTUALGL_URL}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" &&
     chmod u+s /usr/lib/i386-linux-gnu/libvglfaker.so && \
     chmod u+s /usr/lib/i386-linux-gnu/libdlfaker.so
 
-# Anything below this line should be always kept the same between docker-nvidia-glx-desktop and docker-nvidia-egl-desktop
-
-
-RUN mkdir -pm755 /etc/apt/preferences.d && \
-    echo "Package: firefox*\n\
-Pin: release o=Ubuntu*\n\
-Pin-Priority: -1" > /etc/apt/preferences.d/firefox-ppa && \
-    add-apt-repository -y ppa:mozillateam/ppa && \
-    apt-get update && apt-get install --no-install-recommends -y \
-        firefox && \
-    rm -rf /var/lib/apt/lists/*
-
-# # Wine, Winetricks, Lutris, and PlayOnLinux, this process must be consistent with https://wiki.winehq.org/Ubuntu
-# ARG WINE_BRANCH=staging
-# RUN if [ "${UBUNTU_RELEASE}" \< "20.04" ]; then add-apt-repository -y ppa:cybermax-dexter/sdl2-backport; fi && \
-#     mkdir -pm755 /etc/apt/keyrings && curl -fsSL -o /etc/apt/keyrings/winehq-archive.key "https://dl.winehq.org/wine-builds/winehq.key" && \
-#     curl -fsSL -o "/etc/apt/sources.list.d/winehq-$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2).sources" "https://dl.winehq.org/wine-builds/ubuntu/dists/$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2)/winehq-$(grep VERSION_CODENAME= /etc/os-release | cut -d= -f2).sources" && \
-#     apt-get update && apt-get install --install-recommends -y \
-#         winehq-${WINE_BRANCH} && \
-#     apt-get install --no-install-recommends -y \
-#         q4wine \
-#         playonlinux && \
-#     LUTRIS_VERSION=$(curl -fsSL "https://api.github.com/repos/lutris/lutris/releases/latest" | jq -r '.tag_name' | sed 's/[^0-9\.\-]*//g') && \
-#     curl -fsSL -O "https://github.com/lutris/lutris/releases/download/v${LUTRIS_VERSION}/lutris_${LUTRIS_VERSION}_all.deb" && \
-#     apt-get install --no-install-recommends -y ./lutris_${LUTRIS_VERSION}_all.deb && rm -f "./lutris_${LUTRIS_VERSION}_all.deb" && \
-#     rm -rf /var/lib/apt/lists/* && \
-#     curl -fsSL -o /usr/bin/winetricks "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks" && \
-#     chmod 755 /usr/bin/winetricks && \
-#     curl -fsSL -o /usr/share/bash-completion/completions/winetricks "https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks.bash-completion"
 
 # Install latest selkies-gstreamer (https://github.com/selkies-project/selkies-gstreamer) build, Python application, and web application, should be consistent with selkies-gstreamer documentation
 RUN apt-get update && apt-get install --no-install-recommends -y \
@@ -275,56 +210,22 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     curl -fsSL "https://github.com/selkies-project/selkies-gstreamer/releases/download/v${SELKIES_VERSION}/selkies-gstreamer-web-v${SELKIES_VERSION}.tgz" | tar -zxf - && \
     cd /usr/local/cuda/lib64 && sudo find . -maxdepth 1 -type l -name "*libnvrtc.so.*" -exec sh -c 'ln -snf $(basename {}) libnvrtc.so' \;
 
-# # Install the noVNC web interface and the latest x11vnc for fallback
-# RUN apt-get update && apt-get install --no-install-recommends -y \
-#         autoconf \
-#         automake \
-#         autotools-dev \
-#         chrpath \
-#         debhelper \
-#         git \
-#         jq \
-#         python3 \
-#         python3-numpy \
-#         libc6-dev \
-#         libcairo2-dev \
-#         libjpeg-turbo8-dev \
-#         libssl-dev \
-#         libv4l-dev \
-#         libvncserver-dev \
-#         libtool-bin \
-#         libxdamage-dev \
-#         libxinerama-dev \
-#         libxrandr-dev \
-#         libxss-dev \
-#         libxtst-dev \
-#         libavahi-client-dev && \
-#     rm -rf /var/lib/apt/lists/* && \
-#     # Build the latest x11vnc source to avoid various errors
-#     git clone "https://github.com/LibVNC/x11vnc.git" /tmp/x11vnc && \
-#     cd /tmp/x11vnc && autoreconf -fi && ./configure && make install && cd / && rm -rf /tmp/* && \
-#     curl -fsSL "https://github.com/novnc/noVNC/archive/v${NOVNC_VERSION}.tar.gz" | tar -xzf - -C /opt && \
-#     mv -f "/opt/noVNC-${NOVNC_VERSION}" /opt/noVNC && \
-#     ln -snf /opt/noVNC/vnc.html /opt/noVNC/index.html && \
-#     # Use the latest Websockify source to expose noVNC
-#     git clone "https://github.com/novnc/websockify.git" /opt/noVNC/utils/websockify
+
 
 # Add custom packages right below this comment, or use FROM in a new container and replace entrypoint.sh or supervisord.conf, and set ENTRYPOINT to /usr/bin/supervisord
 
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
     apt-get update && apt-get install --no-install-recommends -y \
-        ros-humble-plotjuggler-ros ros-humble-rclcpp && \
-    rm -rf /var/lib/apt/lists/*
+        ros-humble-plotjuggler-ros ros-humble-rclcpp \
+        sudo matchbox-window-manager && \
+        rm -rf /var/lib/apt/lists/*
 
 
 # Create user with password ${PASSWD} and assign adequate groups
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        sudo matchbox-window-manager && \
-    rm -rf /var/lib/apt/lists/* && \
-    groupadd -g 1000 user && \
+RUN groupadd -g 1000 user && \
     useradd -ms /bin/bash user -u 1000 -g 1000 && \
-    usermod -a -G adm,audio,cdrom,dialout,dip,fax,floppy,input,lp,lpadmin,plugdev,pulse-access,sudo,tape,tty,video,voice user && \
+    usermod -a -G adm,audio,cdrom,dialout,dip,fax,floppy,input,lp,plugdev,pulse-access,sudo,tape,tty,video,voice user && \
     echo "user ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     chown user:user /home/user && \
     echo "user:${PASSWD}" | chpasswd && \

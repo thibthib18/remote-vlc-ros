@@ -19,9 +19,7 @@ sudo rm -rf /tmp/.X* ~/.cache
 # Change time zone from environment variable
 sudo ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" | sudo tee /etc/timezone > /dev/null
 # Add game directories for Lutris and VirtualGL directories to path
-export PATH="${PATH}:/usr/local/games:/usr/games:/opt/VirtualGL/bin"
-# Add LibreOffice to library path
-export LD_LIBRARY_PATH="/usr/lib/libreoffice/program:${LD_LIBRARY_PATH}"
+export PATH="${PATH}:/opt/VirtualGL/bin"
 
 # Start DBus without systemd
 sudo /etc/init.d/dbus start
