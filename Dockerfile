@@ -56,14 +56,7 @@ ENV LC_ALL en_US.UTF-8
 # Install Xvfb and other important libraries or packages
 RUN dpkg --add-architecture i386 && \
     apt-get update && apt-get install --no-install-recommends -y \
-        software-properties-common \
-        apt-transport-https \
-        apt-utils \
-        build-essential \
-        ca-certificates \
         curl \
-        gcc \
-        make \
         nano \
         supervisor \
         net-tools \
@@ -91,40 +84,13 @@ RUN dpkg --add-architecture i386 && \
         libsm6:i386 \
         vainfo \
         vdpauinfo \
-        pkg-config \
         mesa-utils \
         mesa-utils-extra \
         va-driver-all \
-        xserver-xorg-input-all \
-        xserver-xorg-video-all \
         mesa-vulkan-drivers \
         libvulkan-dev \
         libvulkan-dev:i386 \
-        libxau6 \
-        libxau6:i386 \
-        libxdmcp6 \
-        libxdmcp6:i386 \
-        libxcb1 \
-        libxcb1:i386 \
-        libxext6 \
-        libxext6:i386 \
-        libx11-6 \
-        libx11-6:i386 \
-        libxv1 \
-        libxv1:i386 \
-        libxtst6 \
-        libxtst6:i386 \
-        xdg-utils \
-        dbus-x11 \
         libdbus-c++-1-0v5 \
-        xkb-data \
-        x11-xkb-utils \
-        x11-xserver-utils \
-        x11-utils \
-        x11-apps \
-        xauth \
-        xinit \
-        xfonts-base \
         libxrandr-dev \
         # Install Xvfb, packages above this line should be the same between docker-nvidia-glx-desktop and docker-nvidia-egl-desktop
         xvfb && \
