@@ -116,6 +116,10 @@ RUN curl -fsSL -O "${VIRTUALGL_URL}/virtualgl_${VIRTUALGL_VERSION}_amd64.deb" &&
 
 # Install latest selkies-gstreamer (https://github.com/selkies-project/selkies-gstreamer) build, Python application, and web application, should be consistent with selkies-gstreamer documentation
 RUN apt-get update && apt-get install --no-install-recommends -y \
+        build-essential \
+        python3-pip \
+        python3-dev \
+        python3-gi \
         python3 \
         python3-setuptools \
         python3-wheel \
@@ -123,10 +127,17 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         sudo \
         udev \
         xclip \
+        x11-utils \
+        xdotool \
+        wmctrl \
+        jq \
         gdebi-core \
+        x11-xserver-utils \
+        xserver-xorg-core \
         libopus0 \
         libgdk-pixbuf2.0-0 \
         libsrtp2-1 \
+        libxdamage1 \
         libxml2-dev \
         libwebrtc-audio-processing1 \
         libcairo-gobject2 \
