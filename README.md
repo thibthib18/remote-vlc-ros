@@ -14,11 +14,11 @@ Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, 
 
 ```
 # Without GPU
-docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
 
 # Or with compatible Nvidia GPU # 
 
-docker run -it --gpus all --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=nvh264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+docker run -it --rm --gpus all --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=nvh264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
 ```
 
 ## Remote access
