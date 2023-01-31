@@ -5,7 +5,6 @@
 # Ubuntu release versions 22.04, 20.04, and 18.04 are supported
 ARG UBUNTU_RELEASE=22.04
 ARG CUDA_VERSION=11.7.1
-ARG ROS_DISTRO=humble
 FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_RELEASE}
 
 LABEL maintainer "https://github.com/ehfd,https://github.com/danisla"
@@ -40,6 +39,9 @@ ENV WEBRTC_ENCODER nvh264enc
 ENV WEBRTC_ENABLE_RESIZE false
 ENV ENABLE_AUDIO true
 ENV ENABLE_BASIC_AUTH false
+
+ENV ROS_DISTRO=humble
+
 
 # Set versions for components that should be manually checked before upgrading, other component versions are automatically determined by fetching the version online
 ARG VIRTUALGL_VERSION=3.0.2
