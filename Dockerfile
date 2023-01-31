@@ -39,7 +39,7 @@ ENV NOVNC_ENABLE false
 ENV WEBRTC_ENCODER nvh264enc
 ENV WEBRTC_ENABLE_RESIZE false
 ENV ENABLE_AUDIO true
-ENV ENABLE_BASIC_AUTH true
+ENV ENABLE_BASIC_AUTH false
 
 # Set versions for components that should be manually checked before upgrading, other component versions are automatically determined by fetching the version online
 ARG VIRTUALGL_VERSION=3.0.2
