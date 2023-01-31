@@ -5,6 +5,7 @@
 # Ubuntu release versions 22.04, 20.04, and 18.04 are supported
 ARG UBUNTU_RELEASE=22.04
 ARG CUDA_VERSION=11.7.1
+ARG ROS_DISTRO=humble
 FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_RELEASE}
 
 LABEL maintainer "https://github.com/ehfd,https://github.com/danisla"
@@ -166,7 +167,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
     apt-get update && apt-get install --no-install-recommends -y \
-        ros-humble-plotjuggler-ros ros-humble-rclcpp \
+        ros-${ROS_DISTRO}-plotjuggler-ros ros-${ROS_DISTRO}-rclcpp \
         sudo matchbox-window-manager && \
         rm -rf /var/lib/apt/lists/*
 
