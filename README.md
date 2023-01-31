@@ -10,7 +10,7 @@ docker build -t ghcr.io/maxpolzin/ros-remote-plotjuggler:humble .
 ```
 ## Run Docker image
 
-Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU) or hardware encoder `nvh264enc` (with GPU).
+Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, high CPU load) or hardware encoder `nvh264enc` (with GPU, faster, low CPU load).
 
 ```
 # Without GPU
