@@ -10,7 +10,7 @@ source /opt/gstreamer/gst-env
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 
 # Default display is :0 across this setup
-export DISPLAY=":0"
+export DISPLAY=":35"
 # Show debug logs for GStreamer
 export GST_DEBUG="${GST_DEBUG:-*:2}"
 # Set password for basic authentication

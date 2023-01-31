@@ -27,7 +27,7 @@ sudo /etc/init.d/dbus start
 source /opt/gstreamer/gst-env
 
 # Default display is :0 across the container
-export DISPLAY=":0"
+export DISPLAY=":35"
 # Run Xvfb server with required extensions
 Xvfb "${DISPLAY}" -ac -screen "0" "8192x4096x${CDEPTH}" -dpi "${DPI}" +extension "RANDR" +extension "GLX" +iglx +extension "MIT-SHM" +render -nolisten "tcp" -noreset -shmem &
 
