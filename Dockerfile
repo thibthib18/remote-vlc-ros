@@ -20,7 +20,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES all
 # Enable AppImage execution in a container
 ENV APPIMAGE_EXTRACT_AND_RUN 1
 # System defaults that should not be changed
-ENV DISPLAY :0
+ENV DISPLAY :35
 ENV XDG_RUNTIME_DIR /tmp/runtime-user
 ENV PULSE_SERVER unix:/run/pulse/native
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
