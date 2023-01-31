@@ -1,3 +1,40 @@
+# Remote-Plotjuggler (for ROS/ROS2)
+Run a (containerized) Plotjuggler on a ROS-enabled robot (ideally with Nvidia GPU) and access Plotjuggler from other devices via web browser.
+
+## Pull or build Docker image 
+
+```
+docker pull ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+# or #
+docker build -t ghcr.io/maxpolzin/ros-remote-plotjuggler:humble .
+```
+## Run Docker image
+
+Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU) or hardware encoder `nvh264enc` (with GPU).
+
+```
+# Without GPU
+docker run -it --rm --network=host --tmpfs /dev/shm:rw -e TZ=UTC -e WEBRTC_ENCODER=x264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+
+# Or with compatible Nvidia GPU # 
+
+docker run -it --gpus all --rm --network=host --tmpfs /dev/shm:rw -e TZ=UTC -e WEBRTC_ENCODER=nvh264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+```
+
+## Remote access
+
+Open browser on arbitrary device and access Remote-Plotjuggler at
+```
+http://ip-of-the-robot:8080
+```
+
+
+# Forked from https://github.com/selkies-project/docker-nvidia-egl-desktop
+
+This repository is largely based on the work of the selkies-project. The full KDE Desktop environment was removed and replaced with the Matchbox Window Manager and Plotjuggler which automatically starts in kiosk mode. Further, libraries were remove to shrink the image size.
+
+Original repo README is below. Thank you very much to the authors.
+
 # docker-nvidia-egl-desktop
 
 KDE Plasma Desktop container designed for Kubernetes with direct access to the GPU with EGL using [VirtualGL](https://github.com/VirtualGL/virtualgl) and Vulkan for GPUs with WebRTC and HTML5, providing an open source remote cloud graphics or game streaming platform. Does not require `/tmp/.X11-unix` host sockets or host configuration.
