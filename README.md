@@ -33,7 +33,9 @@ http://ip-of-the-robot:8080
 
 This repository is largely based on the work of the selkies-project. The full KDE Desktop environment was removed and replaced with the Matchbox Window Manager and Plotjuggler which automatically starts in kiosk mode. Further, libraries were remove to shrink the image size.
 
-Original repo README is below. Thank you very much to the authors.
+Thank you very much to the authors.
+
+Original README:
 
 # docker-nvidia-egl-desktop
 
