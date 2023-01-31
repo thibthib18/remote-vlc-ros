@@ -28,6 +28,9 @@ Open browser on arbitrary device and access Remote-Plotjuggler at
 http://ip-of-the-robot:8080
 ```
 
+## Disclaimer
+
+- Docker container currently is compatible with amd64 architecture. For arch64 (Nvidia Jetson) the base image has to be change (and probably some other modifications made)
 
 # Forked from https://github.com/selkies-project/docker-nvidia-egl-desktop
 
