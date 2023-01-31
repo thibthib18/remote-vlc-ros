@@ -10,15 +10,15 @@ docker build -t ghcr.io/maxpolzin/ros-remote-plotjuggler:humble .
 ```
 ## Run Docker image
 
-Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU) or hardware encoder `nvh264enc` (with GPU).
+Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, high CPU load) or hardware encoder `nvh264enc` (with GPU, faster, low CPU load).
 
 ```
 # Without GPU
-docker run -it --rm --network=host --tmpfs /dev/shm:rw -e TZ=UTC -e WEBRTC_ENCODER=x264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
 
 # Or with compatible Nvidia GPU # 
 
-docker run -it --gpus all --rm --network=host --tmpfs /dev/shm:rw -e TZ=UTC -e WEBRTC_ENCODER=nvh264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+docker run -it --gpus all --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=nvh264enc -e ENABLE_BASIC_AUTH=False --name=offscreen ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
 ```
 
 ## Remote access
@@ -33,7 +33,9 @@ http://ip-of-the-robot:8080
 
 This repository is largely based on the work of the selkies-project. The full KDE Desktop environment was removed and replaced with the Matchbox Window Manager and Plotjuggler which automatically starts in kiosk mode. Further, libraries were remove to shrink the image size.
 
-Original repo README is below. Thank you very much to the authors.
+Thank you very much to the authors.
+
+Original README:
 
 # docker-nvidia-egl-desktop
 
