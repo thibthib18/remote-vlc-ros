@@ -15,7 +15,7 @@ Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, 
 ```
 # Without GPU (tested and works well on Ubuntu 22.04 host)
 
-# Note, when running on a local computer replace "--net=host" with "-p 8080:8080" to prevent conflicts between sockets of host and container.
+# Note, when running on a local computer, replace "--net=host" with "-p 8080:8080" to prevent conflicts between sockets of host and container.
 docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble 
 
 # Or with compatible Nvidia GPU 
