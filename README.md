@@ -13,12 +13,13 @@ docker build -t ghcr.io/maxpolzin/ros-remote-plotjuggler:humble .
 Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, high CPU load) or hardware encoder `nvh264enc` (with GPU, faster, low CPU load).
 
 ```
-# Without GPU
+# Without GPU (tested and works well)
 docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
 
-# Or with compatible Nvidia GPU # 
+# Or with compatible Nvidia GPU 
 
 docker run -it --rm --gpus all --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=nvh264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+
 ```
 
 ## Remote access
@@ -27,10 +28,15 @@ Open browser on arbitrary device and access Remote-Plotjuggler at
 ```
 http://ip-of-the-robot:8080
 ```
+Note, a Chromium-based browser seems to work better. 
 
 ## Disclaimer
 
+- I couldn't test/evaluate the GPU version properly. Please refer to the original selkies project for troubleshooting arising issues. Any contributions/bug reports findings are most welcome.
 - Docker container currently is compatible with amd64 architecture. For arch64 (Nvidia Jetson) the base image has to be change (and probably some other modifications made)
+
+
+
 
 # Forked from https://github.com/selkies-project/docker-nvidia-egl-desktop
 
