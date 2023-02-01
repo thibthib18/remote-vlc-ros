@@ -35,9 +35,7 @@ This repository is largely based on the work of the selkies-project. The full KD
 
 Thank you very much to the authors.
 
-Original README:
-
-# docker-nvidia-egl-desktop
+# Original README: docker-nvidia-egl-desktop
 
 KDE Plasma Desktop container designed for Kubernetes with direct access to the GPU with EGL using [VirtualGL](https://github.com/VirtualGL/virtualgl) and Vulkan for GPUs with WebRTC and HTML5, providing an open source remote cloud graphics or game streaming platform. Does not require `/tmp/.X11-unix` host sockets or host configuration.
 
