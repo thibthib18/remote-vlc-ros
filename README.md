@@ -13,8 +13,9 @@ docker build -t ghcr.io/maxpolzin/ros-remote-plotjuggler:humble .
 Use either software encoder `x264enc`, `vp8enc`, `vp9enc` (without GPU, slower, high CPU load) or hardware encoder `nvh264enc` (with GPU, faster, low CPU load).
 
 ```
-# Without GPU (tested and works well)
-docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble
+# Without GPU (tested and works well on Ubuntu 22.04 host)
+
+docker run -it --rm --network=host --tmpfs /dev/shm:rw -e WEBRTC_ENCODER=x264enc ghcr.io/maxpolzin/ros-remote-plotjuggler:humble # Note, when running on a local computer try replacing "--net=host" with "-p 8080:8080" for better isolation from the host
 
 # Or with compatible Nvidia GPU 
 
