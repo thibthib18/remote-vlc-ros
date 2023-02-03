@@ -63,7 +63,8 @@ fi
 # Add custom processes right below this line, or within `supervisord.conf` to perform service management similar to systemd
 
 source /opt/ros/humble/setup.bash
-vglrun -d ${VGL_DISPLAY} /opt/ros/humble/lib/plotjuggler/plotjuggler 
+# vglrun -d ${VGL_DISPLAY} /opt/ros/humble/lib/plotjuggler/plotjuggler
+vglrun -d ${VGL_DISPLAY} vlc
 
 echo "Session Running. Press [Return] to exit."
 read
