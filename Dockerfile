@@ -174,6 +174,14 @@ RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o 
         rm -rf /var/lib/apt/lists/*
 
 
+# RUN echo 15385 > /proc/sys/user/max_user_namespaces
+RUN apt update && apt install -y vlc && \
+    echo "OK"
+    # flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+    # flatpak install -y --noninteractive org.kde.Platform/x86_64/5.15-22.08 && \
+    # flatpak install -y --noninteractive flathub org.videolan.VLC
+
+
 # Create user with password ${PASSWD} and assign adequate groups
 RUN groupadd -g 1000 user && \
     useradd -ms /bin/bash user -u 1000 -g 1000 && \
