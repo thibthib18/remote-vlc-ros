@@ -3,7 +3,7 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 # Ubuntu release versions 22.04, 20.04, and 18.04 are supported
-ARG UBUNTU_RELEASE=22.04
+ARG UBUNTU_RELEASE=18.04
 ARG CUDA_VERSION=11.7.1
 FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu${UBUNTU_RELEASE}
 
@@ -166,21 +166,51 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 # Add custom packages right below this comment, or use FROM in a new container and replace entrypoint.sh or supervisord.conf, and set ENTRYPOINT to /usr/bin/supervisord
 
-RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
-    apt-get update && apt-get install --no-install-recommends -y \
-        ros-${ROS_DISTRO}-plotjuggler-ros ros-${ROS_DISTRO}-rclcpp \
-        sudo matchbox-window-manager && \
-        rm -rf /var/lib/apt/lists/*
+# RUN curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
+#     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
+#     apt-get update && apt-get install --no-install-recommends -y \
+#         ros-${ROS_DISTRO}-plotjuggler-ros ros-${ROS_DISTRO}-rclcpp \
+#         sudo matchbox-window-manager && \
+#         rm -rf /var/lib/apt/lists/*
 
 
 # RUN echo 15385 > /proc/sys/user/max_user_namespaces
-RUN apt update && apt install -y vlc && \
-    echo "OK"
-    # flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
+# RUN apt update && apt install -y vlc && \
+#     echo "OK"
+#     # flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo && \
     # flatpak install -y --noninteractive org.kde.Platform/x86_64/5.15-22.08 && \
     # flatpak install -y --noninteractive flathub org.videolan.VLC
 
+
+WORKDIR /
+RUN apt-get update && apt-get install --no-install-recommends -y \
+  wget
+
+# Build and install Live555 from source
+# RUN wget http://www.live555.com/liveMedia/public/live.2023.01.19.tar.gz
+# RUN tar -xf live.2023.01.19.tar.gz
+# WORKDIR /live
+# RUN ./genMakefiles linux
+# RUN make
+# WORKDIR /
+# RUN cp -r live /usr/lib
+# RUN make install
+
+# Build and install latest vlc from source
+RUN cp /etc/apt/sources.list /etc/apt/sources.list~ 
+RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+RUN apt-get update && apt-get install --no-install-recommends -y \
+      git g++ make libtool automake autopoint pkg-config flex bison lua5.2
+WORKDIR /
+RUN git clone --branch 3.0.18 --depth 1 https://github.com/videolan/vlc.git
+WORKDIR /vlc
+RUN ./bootstrap
+RUN apt build-dep -y vlc
+RUN ./configure --enable-live555 
+RUN make
+RUN make install
+
+RUN apt install -y dbus-x11
 
 # Create user with password ${PASSWD} and assign adequate groups
 RUN groupadd -g 1000 user && \
